@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.0)
 project(brighty)
 
 add_executable(brighty src/main.cpp src/device.cpp)
