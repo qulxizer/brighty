@@ -16,7 +16,7 @@ Device::Device(const std::string& name) {
         throw std::invalid_argument("couldn't find device: " + devicePath);
     }
     std::filesystem::path maxBrightnessPath = std::filesystem::path(devicePath) / "max_brightness";
-    std::ifstream file(maxBrightnessPath.string());
+    std::ifstream file(maxBrightnessPath);
     std::string line;
     std::getline(file, line);
     file.close();
@@ -24,6 +24,15 @@ Device::Device(const std::string& name) {
 }
 
 void Device::setBrightness(unsigned int brightness) {
+
+    std::filesystem::path brightnessPath = std::filesystem::path(devicePath) / "brightness";
+    std::ofstream file(brightnessPath, std::ios::trunc);
+    if (file.is_open()) {
+        file << std::to_string(brightness);
+    } else {
+        std::cout << "Unable to open file" << std::endl;
+    }
+    file.close();
     return;
 }
 
@@ -61,6 +70,7 @@ std::vector<std::string> listDevices() {
 
 Command parseCmd(const std::string& s) {
     if (s == "list") return Command::LIST;
+    if (s == "help") return Command::HELP;
     if (s == "get") return Command::GET;
     if (s == "set") return Command::SET;
     if (s == "inc") return Command::INC;

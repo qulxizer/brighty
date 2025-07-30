@@ -3,6 +3,7 @@
 
 enum class Command {
     LIST,
+    HELP,
     GET,
     SET,
     INC,
